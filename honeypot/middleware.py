@@ -7,6 +7,8 @@ from honeypot.decorators import verify_honeypot_value
 
 class HoneypotViewMiddleware(object):
     def process_view(self, request, callback, callback_args, callback_kwargs):
+        if request.is_ajax():
+            return None
         return verify_honeypot_value(request, None)
 
 class HoneypotResponseMiddleware(object):
