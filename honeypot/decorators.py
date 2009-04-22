@@ -7,7 +7,10 @@ from django.conf import settings
 from django.http import HttpResponseBadRequest
 
 def verify_honeypot_value(val):
-    return val == getattr(settings, 'HONEYPOT_VALUE', '')
+    expected = getattr(settings, 'HONEYPOT_VALUE', '')
+    if callable(expected):
+        expected = callable()
+    return val == expected
 
 def check_honeypot(func=None, field_name=None):
     verifier = getattr(settings, 'HONEYPOT_VERIFIER', verify_honeypot_value)
