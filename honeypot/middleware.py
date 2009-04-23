@@ -6,12 +6,20 @@ from django.contrib.csrf.middleware import _POST_FORM_RE, _HTML_TYPES
 from honeypot.decorators import verify_honeypot_value
 
 class HoneypotViewMiddleware(object):
+    """
+        Middleware that verifies a valid honeypot on all non-ajax POSTs.
+    """
     def process_view(self, request, callback, callback_args, callback_kwargs):
         if request.is_ajax():
             return None
         return verify_honeypot_value(request, None)
 
 class HoneypotResponseMiddleware(object):
+    """
+        Middleware that rewrites all POST forms to include honeypot field.
+
+        Borrows heavily from django.contrib.csrf.middleware.CsrfResponseMiddleware.
+    """
     def process_response(self, request, response):
 
         if response['Content-Type'].split(';')[0] in _HTML_TYPES:
@@ -31,4 +39,7 @@ class HoneypotResponseMiddleware(object):
         return response
 
 class HoneypotMiddleware(HoneypotViewMiddleware, HoneypotResponseMiddleware):
+    """
+        Combines HoneypotViewMiddleware and HoneypotResponseMiddleware.
+    """
     pass
