@@ -16,7 +16,7 @@ def honeypot_equals(val):
     """
     expected = getattr(settings, 'HONEYPOT_VALUE', '')
     if callable(expected):
-        expected = callable()
+        expected = expected()
     return val == expected
 
 def verify_honeypot_value(request, field_name):
