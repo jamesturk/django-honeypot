@@ -1,12 +1,12 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 long_description = open('README.rst').read()
 
 setup(
     name='django-honeypot',
-    version="0.1",
+    version="0.1.1",
     package_dir={'honeypot': 'honeypot'},
-    packages=['honeypot'],
+    packages=find_packages(),
     description='Django honeypot field utilities',
     author='James Turk',
     author_email='jturk@sunlightfoundation.com',
@@ -23,4 +23,7 @@ setup(
         'Programming Language :: Python',
         'Environment :: Web Environment',
     ],
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=['setuptools'],
 )
