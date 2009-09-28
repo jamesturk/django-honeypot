@@ -82,3 +82,13 @@ All of these middleware live in ``honeypot.middleware``.
 ``HoneypotViewMiddleware`` ensures that for all incoming POST requests to views ``request.POST`` contains a valid honeypot field as defined by the ``HONEYPOT_FIELD_NAME``, ``HONEYPOT_VALUE``, and ``HONEYPOT_VERIFIER`` settings.  The result is the same as if every view in your project were decorated with ``@check_honeypot``.
 
 ``HoneypotMiddleware`` is a combined middleware that applies both ``HoneypotResponseMiddleware`` and ``HoneypotViewMiddleware``, this is the easiest way to get honeypot fields site-wide and can be used in many if not most cases.
+
+Customizing honeypot display
+----------------------------
+
+There are two templates used by django-honeypot that can be used to control various aspects of how the honeypot functionality is presented to the user.
+
+``honeypot/honeypot_field.html`` is used to render the honeypot field.  It is given two context variables ``fieldname`` and ``value``, corresponding to ``HONEYPOT_FIELD_NAME`` and ``HONEYPOT_VALUE`` or any overrides in effect (such as a custom field name passed to the template tag).
+
+``honeypot/honeypot_error.html`` is the error page rendered when a bad request is intercepted.  It is given the context variable ``fieldname`` representing the name of the honeypot field.
+

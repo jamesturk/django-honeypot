@@ -3,7 +3,6 @@
     - fix usage of middleware with unicode templates (github #2)
     - move error message into honeypot_error.html
     - fix usage of decorator with alternate field name (github #1)
-    - correctly check markup_type when doing pre_save
 
 0.1.2 - May 27 2009
 ===================
