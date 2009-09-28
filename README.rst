@@ -60,7 +60,7 @@ To ensure that the honeypot field is both present and correct you will need to u
 
     from honeypot.decorators import check_honeypot
 
-    @check_honeypot('field_name')
+    @check_honeypot(field_name='hp_field_name')
     def post_comment(request):
         ...
 

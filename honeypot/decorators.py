@@ -39,16 +39,21 @@ def check_honeypot(func=None, field_name=None):
         Takes an optional field_name that defaults to HONEYPOT_FIELD_NAME if
         not specified.
     """
-    def inner(request, *args, **kwargs):
-        response = verify_honeypot_value(request, field_name)
-        if response:
-            return response
-        else:
-            return func(request, *args, **kwargs)
-    inner = wraps(func)(inner)
+    # hack to reverse arguments if called with str param
+    if isinstance(func, basestring):
+        func, field_name = field_name, func
+
+    def decorated(func):
+        def inner(request, *args, **kwargs):
+            response = verify_honeypot_value(request, field_name)
+            if response:
+                return response
+            else:
+                return func(request, *args, **kwargs)
+        return wraps(func)(inner)
 
     if func is None:
         def decorator(func):
-            return inner
+            return decorated(func)
         return decorator
-    return inner
+    return decorated(func)
