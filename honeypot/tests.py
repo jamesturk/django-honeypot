@@ -71,6 +71,7 @@ class VerifyHoneypotValue(HoneypotTestCase):
         resp = verify_honeypot_value(request, None)
         self.assertEquals(resp, None)
 
+
 class CheckHoneypotDecorator(HoneypotTestCase):
 
     def test_default_decorator(self):
@@ -81,10 +82,18 @@ class CheckHoneypotDecorator(HoneypotTestCase):
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
 
     def test_decorator_argument(self):
-        """ test that @check_honeypot('fieldname') works """
+        """ test that check_honeypot(view, 'fieldname') works """
         new_view_func = check_honeypot(view_func, 'fieldname')
         request = _get_POST_request()
-        request.POST[settings.HONEYPOT_FIELD_NAME] = ''
+        resp = new_view_func(request)
+        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+
+    def test_decorator_py24_syntax(self):
+        """ test that @check_honeypot syntax works """
+        @check_honeypot('field')
+        def new_view_func(request):
+            return HttpResponse()
+        request = _get_POST_request()
         resp = new_view_func(request)
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
 
