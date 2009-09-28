@@ -6,8 +6,7 @@ except ImportError:
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseBadRequest
-
-_ERROR_MSG = mark_safe('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body><h1>400 Bad Request</h1><p>Honey Pot Error. Request aborted.</p></body></html>')
+from django.template.loader import render_to_string
 
 def honeypot_equals(val):
     """
@@ -30,7 +29,9 @@ def verify_honeypot_value(request, field_name):
     if request.method == 'POST':
         field = field_name or settings.HONEYPOT_FIELD_NAME
         if field not in request.POST or not verifier(request.POST[field]):
-            return HttpResponseBadRequest(_ERROR_MSG)
+            resp = render_to_string('honeypot/honeypot_error.html',
+                                    {'field_name': field})
+            return HttpResponseBadRequest(resp)
 
 def check_honeypot(func=None, field_name=None):
     """

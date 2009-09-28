@@ -1,0 +1,13 @@
+0.2.0
+=====================
+    - move error message into honeypot_error.html
+    - fixed usage of decorator with alternate field name (github #1)
+    - correctly check markup_type when doing pre_save
+
+0.1.2 - May 27 2009
+===================
+    - fixed some packaging issues
+
+0.1.0 - April 24 2009
+=====================
+    - initial working release
