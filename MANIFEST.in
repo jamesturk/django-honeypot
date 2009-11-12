@@ -2,4 +2,4 @@ include CHANGELOG LICENSE README.rst
 
 include LICENSE
 include MANIFEST.in
-recursive-include social_bookmarking/templates *
+recursive-include honeypot/templates *
