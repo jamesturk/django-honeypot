@@ -1,9 +1,9 @@
-0.2.1
-====================
-    - fix installation from PyPI
+0.2.1 - November 18 2009
+========================
+    - fix installation from PyPI, thanks Daniel Greenfield
 
-0.2.0
-=====================
+0.2.0 - September 28 2009
+=========================
     - fix usage of middleware with unicode templates (github #2)
     - move error message into honeypot_error.html
     - fix usage of decorator with alternate field name (github #1)
