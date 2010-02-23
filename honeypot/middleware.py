@@ -1,10 +1,15 @@
+import re
 import itertools
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils.encoding import force_unicode
-from django.contrib.csrf.middleware import _POST_FORM_RE, _HTML_TYPES
 from honeypot.decorators import verify_honeypot_value
+
+# these were moved out of Django 1.2 -- we're going to still use them
+_POST_FORM_RE = re.compile(r'(<form\W[^>]*\bmethod\s*=\s*(\'|"|)POST(\'|"|)\b[^>]*>)',
+                           re.IGNORECASE)
+_HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
 class HoneypotViewMiddleware(object):
     """
@@ -19,7 +24,7 @@ class HoneypotResponseMiddleware(object):
     """
         Middleware that rewrites all POST forms to include honeypot field.
 
-        Borrows heavily from django.contrib.csrf.middleware.CsrfResponseMiddleware.
+        Borrows heavily from pre-Django 1.2 django.contrib.csrf.middleware.CsrfResponseMiddleware.
     """
     def process_response(self, request, response):
 
