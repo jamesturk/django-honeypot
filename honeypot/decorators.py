@@ -18,7 +18,7 @@ def honeypot_equals(val):
         expected = expected()
     return val == expected
 
-def verify_honeypot_value(request, field_name):
+def verify_honeypot_value(request, field_name, fail_to_string=False):
     """
         Verify that request.POST[field_name] is a valid honeypot.
 
@@ -31,9 +31,11 @@ def verify_honeypot_value(request, field_name):
         if field not in request.POST or not verifier(request.POST[field]):
             resp = render_to_string('honeypot/honeypot_error.html',
                                     {'fieldname': field})
+            if fail_to_string:
+                return resp
             return HttpResponseBadRequest(resp)
 
-def check_honeypot(func=None, field_name=None):
+def check_honeypot(func=None, field_name=None, fail_to_string=False):
     """
         Check request.POST for valid honeypot field.
 
@@ -46,7 +48,7 @@ def check_honeypot(func=None, field_name=None):
 
     def decorated(func):
         def inner(request, *args, **kwargs):
-            response = verify_honeypot_value(request, field_name)
+            response = verify_honeypot_value(request, field_name, fail_to_string)
             if response:
                 return response
             else:
