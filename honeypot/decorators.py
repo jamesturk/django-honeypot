@@ -5,7 +5,7 @@ except ImportError:
 
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from django.http import HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.template.loader import render_to_string
 
 def honeypot_equals(val):
@@ -26,11 +26,16 @@ def verify_honeypot_value(request, field_name):
         HONEYPOT_VERIFIER.
     """
     verifier = getattr(settings, 'HONEYPOT_VERIFIER', honeypot_equals)
+    redirect = getattr(settings, 'HONEYPOT_REDIRECT_URL', None)
     if request.method == 'POST':
         field = field_name or settings.HONEYPOT_FIELD_NAME
         if field not in request.POST or not verifier(request.POST[field]):
+            #If a redirect url is specified in the settings, redirect user
+            if redirect != None:
+                return HttpResponseRedirect(redirect)
+            
             resp = render_to_string('honeypot/honeypot_error.html',
-                                    {'fieldname': field})
+                                {'fieldname': field})
             return HttpResponseBadRequest(resp)
 
 def check_honeypot(func=None, field_name=None):
