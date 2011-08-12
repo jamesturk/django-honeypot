@@ -31,10 +31,9 @@ def verify_honeypot_value(request, field_name):
     
     if request.method == 'POST':
         field = field_name or settings.HONEYPOT_FIELD_NAME
+        js_field = field + '_js'
         
-        js_field = field + 'js'
         failed_js_validation = False
-        
         if use_js_field and js_field not in request.POST:
             failed_js_validation = True
         
