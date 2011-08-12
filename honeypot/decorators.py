@@ -27,9 +27,17 @@ def verify_honeypot_value(request, field_name):
     """
     verifier = getattr(settings, 'HONEYPOT_VERIFIER', honeypot_equals)
     redirect = getattr(settings, 'HONEYPOT_REDIRECT_URL', None)
+    use_js_field = getattr(settings, 'HONEYPOT_USE_JS_FIELD', False)
+    
     if request.method == 'POST':
         field = field_name or settings.HONEYPOT_FIELD_NAME
-        if field not in request.POST or not verifier(request.POST[field]):
+        js_field = field + 'js'
+        
+        if use_js_field and js_field not in request.POST:
+            failed_js_validation = True
+        
+        if field not in request.POST or not verifier(request.POST[field]) or failed_js_validation:
+            
             #If a redirect url is specified in the settings, redirect user
             if redirect != None:
                 return HttpResponseRedirect(redirect)

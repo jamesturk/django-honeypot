@@ -13,4 +13,7 @@ def render_honeypot_field(field_name=None):
     value = getattr(settings, 'HONEYPOT_VALUE', '')
     if callable(value):
         value = value()
-    return {'fieldname': field_name, 'value': value}
+    
+    use_js_field = getattr(settings, 'HONEYPOT_USE_JS_FIELD', False)
+    
+    return {'fieldname': field_name, 'value': value, 'use_js_field': use_js_field}
