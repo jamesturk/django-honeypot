@@ -5,7 +5,7 @@ except ImportError:
 
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.template.loader import render_to_string
 
 def honeypot_equals(val):
