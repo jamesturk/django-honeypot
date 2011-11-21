@@ -3,8 +3,9 @@
         <input id="{{fieldname}}" type="text" name="{{fieldname}}" value="{{value}}" />
     </label>
     {% if use_js_field %}
-    <script type="text/javascript">
+    {% if display_script_tags %}<script type="text/javascript">{% endif %}
         document.write('<input type="hidden" name="{{fieldname}}_js" value="1" />');
-    </script>
+    
+    {% if display_script_tags %}</script>{% endif %}
     {% endif %}
 </div>
