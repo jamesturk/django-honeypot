@@ -1,3 +1,7 @@
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = 'honeypottest.db'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'honeypottest.db'
+    }
+}
 INSTALLED_APPS = ('honeypot')
