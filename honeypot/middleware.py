@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 try:
     from django.utils.encoding import force_text
-except ImportError
+except ImportError:
     from django.utils.encoding import force_unicode as force_text
 from honeypot.decorators import verify_honeypot_value
 
