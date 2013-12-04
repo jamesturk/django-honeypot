@@ -3,7 +3,7 @@ import itertools
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.conf import settings
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from honeypot.decorators import verify_honeypot_value
 
 # these were moved out of Django 1.2 -- we're going to still use them
@@ -41,8 +41,7 @@ class HoneypotResponseMiddleware(object):
                                                    'value': value}))
 
             # Modify any POST forms
-            response.content = _POST_FORM_RE.sub(add_honeypot_field,
-                                                 force_unicode(response.content))
+            response.content = _POST_FORM_RE.sub(add_honeypot_field, force_text(response.content))
         return response
 
 class HoneypotMiddleware(HoneypotViewMiddleware, HoneypotResponseMiddleware):
