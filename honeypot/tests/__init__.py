@@ -144,7 +144,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request.POST[settings.HONEYPOT_FIELD_NAME] = ''
         response = HttpResponse(self._response_body)
         HoneypotResponseMiddleware().process_response(request, response)
-        self.assertNotEqual(response.content, self._response_body)
+        self.assertNotContains(response, self._response_body)
         self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
 
     def test_response_middleware_contenttype_exclusion(self):
@@ -153,7 +153,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request.POST[settings.HONEYPOT_FIELD_NAME] = ''
         response = HttpResponse(self._response_body, content_type='text/javascript')
         HoneypotResponseMiddleware().process_response(request, response)
-        self.assertEquals(response.content, self._response_body)
+        self.assertContains(response, self._response_body)
 
     def test_response_middleware_unicode(self):
         """ ensure that POST form rewriting works with unicode templates """
@@ -161,5 +161,5 @@ class HoneypotMiddleware(HoneypotTestCase):
         unicode_body = u'\u2603'+self._response_body    # add unicode snowman
         response = HttpResponse(unicode_body)
         HoneypotResponseMiddleware().process_response(request, response)
-        self.assertNotEqual(response.content, unicode_body)
+        self.assertNotContains(response, unicode_body)
         self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
