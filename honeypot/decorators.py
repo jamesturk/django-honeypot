@@ -41,7 +41,7 @@ def check_honeypot(func=None, field_name=None):
         not specified.
     """
     # hack to reverse arguments if called with str param
-    if isinstance(func, basestring):
+    if not callable(func):
         func, field_name = field_name, func
 
     def decorated(func):
