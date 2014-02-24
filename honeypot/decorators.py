@@ -1,3 +1,5 @@
+import six
+
 try:
     from functools import wraps
 except ImportError:
@@ -41,7 +43,7 @@ def check_honeypot(func=None, field_name=None):
         not specified.
     """
     # hack to reverse arguments if called with str param
-    if not callable(func):
+    if isinstance(func, six.string_types):
         func, field_name = field_name, func
 
     def decorated(func):
