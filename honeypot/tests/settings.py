@@ -1,7 +1,7 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'honeypottest.db'
+        'NAME': ':memory:'
     }
 }
 INSTALLED_APPS = ('honeypot')
