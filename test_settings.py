@@ -4,5 +4,5 @@ DATABASES = {
         'NAME': ':memory:'
     }
 }
-INSTALLED_APPS = ('honeypot')
+INSTALLED_APPS = ('honeypot',)
 SECRET_KEY = 'honeyisfrombees'
