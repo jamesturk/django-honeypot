@@ -6,7 +6,7 @@ env:
     - DJANGO_VERSION=1.4
     - DJANGO_VERSION=1.5
     - DJANGO_VERSION=1.6
-install: pip install Django==$DJANGO_VERSION --use-mirrors
+install: pip install six Django==$DJANGO_VERSION --use-mirrors
 script: django-admin.py test --settings=test_settings --pythonpath=.
 matrix:
     exclude:

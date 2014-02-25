@@ -6,26 +6,17 @@ Django application that provides utilities for preventing automated form spam.
 
 Provides template tags, view decorators, and middleware to add and verify honeypot fields to forms.
 
-django-honeypot is a project of Sunlight Labs (c) 2010.
-Written by James Turk <jturk@sunlightfoundation.com>
+django-honeypot is a project of Sunlight Labs (c) 2014.
+Written by James Turk <jturk@sunlightfoundation.com> with contributions by Flavio Curella and Daniel Greenfeld.
 
 Source: http://github.com/sunlightlabs/django-honeypot/
 
 Requirements
 ============
 
-python >= 2.4
-
-django >= 1.0
-
-Installation
-============
-
-To install run 
-
-    ``python setup.py install``
-
-which will install the application into the site-packages directory.
+    * python >= 2.6
+    * django >= 1.4
+    * six
 
 Usage
 =====
