@@ -6,7 +6,6 @@ from django.conf import settings
 from honeypot.middleware import HoneypotViewMiddleware, HoneypotResponseMiddleware
 from honeypot.decorators import verify_honeypot_value, check_honeypot
 
-print 'x'
 
 def _get_GET_request():
     return HttpRequest()
