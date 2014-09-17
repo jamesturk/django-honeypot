@@ -30,9 +30,13 @@ class HoneypotResponseMiddleware(object):
         Borrows heavily from pre-Django 1.2 django.contrib.csrf.middleware.CsrfResponseMiddleware.
     """
     def process_response(self, request, response):
+        try:
+            content_type = response['Content-Type'].split(';')[0]
+        except (KeyError, AttributeError) as e:
+            content_type = None
 
-        if response['Content-Type'].split(';')[0] in _HTML_TYPES:
-             # ensure we don't add the 'id' attribute twice (HTML validity)
+        if content_type in _HTML_TYPES:
+            # ensure we don't add the 'id' attribute twice (HTML validity)
             def add_honeypot_field(match):
                 """Returns the matched <form> tag plus the added <input> element"""
                 value = getattr(settings, 'HONEYPOT_VALUE', '')
