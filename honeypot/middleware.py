@@ -14,11 +14,20 @@ _POST_FORM_RE = re.compile(r'(<form\W[^>]*\bmethod\s*=\s*(\'|"|)POST(\'|"|)\b[^>
                            re.IGNORECASE)
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
+def honeypot_required(request):
+    exclude_urls = getattr(settings, 'HONEYPOT_EXCLUDE_URLS', ())
+    for url in exclude_urls:
+        if request.path_info.startswith(url):
+            return False
+    return True
+
 class HoneypotViewMiddleware(object):
     """
         Middleware that verifies a valid honeypot on all non-ajax POSTs.
     """
     def process_view(self, request, callback, callback_args, callback_kwargs):
+        if not honeypot_required(request):
+            return None
         if request.is_ajax():
             return None
         return verify_honeypot_value(request, None)
@@ -34,6 +43,9 @@ class HoneypotResponseMiddleware(object):
             content_type = response['Content-Type'].split(';')[0]
         except (KeyError, AttributeError) as e:
             content_type = None
+
+        if not honeypot_required(request):
+            return response
 
         if content_type in _HTML_TYPES:
             # ensure we don't add the 'id' attribute twice (HTML validity)
