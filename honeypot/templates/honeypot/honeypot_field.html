@@ -1,5 +1,11 @@
 <div style="display: none;">
     <label>leave this field blank to prove your humanity
-        <input type="text" name="{{fieldname}}" value="{{value}}" />
+        <input id="{{fieldname}}" type="text" name="{{fieldname}}" value="{{value}}" />
     </label>
+    {% if use_js_field %}
+    {% if display_script_tags %}<script type="text/javascript">{% endif %}
+        document.write('<input type="hidden" name="{{fieldname}}_js" value="1" />');
+    
+    {% if display_script_tags %}</script>{% endif %}
+    {% endif %}
 </div>
