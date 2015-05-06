@@ -2,8 +2,8 @@
 django-honeypot
 ===============
 
-.. image:: https://travis-ci.org/jamesturk/django-honeypot.svg?branch=master
-    :target: https://travis-ci.org/jamesturk/django-honeypot
+.. image:: https://travis-ci.org/sunlightlabs/django-honeypot.svg?branch=master
+    :target: https://travis-ci.org/sunlightlabs/django-honeypot
 
 .. image:: https://img.shields.io/pypi/v/django-honeypot.svg
     :target: https://pypi.python.org/pypi/django-honeypot
