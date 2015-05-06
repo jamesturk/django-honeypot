@@ -3,6 +3,8 @@ python:
     - "2.7"
     - "3.4"
 env:
+    - DJANGO_VERSION=1.4
+    - DJANGO_VERSION=1.7
     - DJANGO_VERSION=1.8
 install: pip install six Django==$DJANGO_VERSION --use-mirrors
 script: django-admin.py test --settings=test_settings --pythonpath=.
