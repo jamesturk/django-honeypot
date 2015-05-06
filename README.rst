@@ -20,9 +20,8 @@ Source: http://github.com/sunlightlabs/django-honeypot/
 Requirements
 ============
 
-    * python >= 2.6
-    * django >= 1.4
-    * six
+    * python >= 2.7
+    * django >= 1.7
 
 Usage
 =====

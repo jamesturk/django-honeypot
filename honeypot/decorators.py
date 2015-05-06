@@ -1,6 +1,5 @@
-import six
-
 from functools import wraps
+from django.utils import six
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
