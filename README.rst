@@ -2,6 +2,12 @@
 django-honeypot
 ===============
 
+.. image:: https://travis-ci.org/jamesturk/django-honeypot.svg?branch=master
+    :target: https://travis-ci.org/jamesturk/django-honeypot
+
+.. image:: https://img.shields.io/pypi/v/django-honeypot.svg
+    :target: https://pypi.python.org/pypi/django-honeypot
+
 Django application that provides utilities for preventing automated form spam.
 
 Provides template tags, view decorators, and middleware to add and verify honeypot fields to forms.
