@@ -1,5 +1,4 @@
 import re
-import itertools
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -14,6 +13,7 @@ _POST_FORM_RE = re.compile(r'(<form\W[^>]*\bmethod\s*=\s*(\'|"|)POST(\'|"|)\b[^>
                            re.IGNORECASE)
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
+
 class HoneypotViewMiddleware(object):
     """
         Middleware that verifies a valid honeypot on all non-ajax POSTs.
@@ -22,6 +22,7 @@ class HoneypotViewMiddleware(object):
         if request.is_ajax():
             return None
         return verify_honeypot_value(request, None)
+
 
 class HoneypotResponseMiddleware(object):
     """
@@ -32,7 +33,7 @@ class HoneypotResponseMiddleware(object):
     def process_response(self, request, response):
         try:
             content_type = response['Content-Type'].split(';')[0]
-        except (KeyError, AttributeError) as e:
+        except (KeyError, AttributeError):
             content_type = None
 
         if content_type in _HTML_TYPES:
@@ -50,6 +51,7 @@ class HoneypotResponseMiddleware(object):
             # Modify any POST forms
             response.content = _POST_FORM_RE.sub(add_honeypot_field, force_text(response.content))
         return response
+
 
 class HoneypotMiddleware(HoneypotViewMiddleware, HoneypotResponseMiddleware):
     """

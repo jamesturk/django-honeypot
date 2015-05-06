@@ -1,14 +1,10 @@
 import six
 
-try:
-    from functools import wraps
-except ImportError:
-    from django.utils.functional import wraps # Python <= 2.4
-
+from functools import wraps
 from django.conf import settings
-from django.utils.safestring import mark_safe
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
+
 
 def honeypot_equals(val):
     """
@@ -19,6 +15,7 @@ def honeypot_equals(val):
     if callable(expected):
         expected = expected()
     return val == expected
+
 
 def verify_honeypot_value(request, field_name):
     """
@@ -34,6 +31,7 @@ def verify_honeypot_value(request, field_name):
             resp = render_to_string('honeypot/honeypot_error.html',
                                     {'fieldname': field})
             return HttpResponseBadRequest(resp)
+
 
 def check_honeypot(func=None, field_name=None):
     """

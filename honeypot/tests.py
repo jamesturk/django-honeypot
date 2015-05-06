@@ -10,13 +10,16 @@ from honeypot.decorators import verify_honeypot_value, check_honeypot
 def _get_GET_request():
     return HttpRequest()
 
+
 def _get_POST_request():
     req = HttpRequest()
     req.method = "POST"
     return req
 
+
 def view_func(request):
     return HttpResponse()
+
 
 class HoneypotTestCase(TestCase):
     def setUp(self):
@@ -27,8 +30,8 @@ class HoneypotTestCase(TestCase):
             delattr(settings._wrapped, 'HONEYPOT_VERIFIER')
         settings.HONEYPOT_FIELD_NAME = 'honeypot'
 
-class VerifyHoneypotValue(HoneypotTestCase):
 
+class VerifyHoneypotValue(HoneypotTestCase):
     def test_no_call_on_get(self):
         """ test that verify_honeypot_value is not called when request.method == GET """
         request = _get_GET_request()
@@ -44,7 +47,8 @@ class VerifyHoneypotValue(HoneypotTestCase):
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
 
     def test_field_missing(self):
-        """ test that verify_honeypot_value succeeds when HONEYPOT_FIELD_NAME is missing from request.POST """
+        """ test that verify_honeypot_value succeeds when HONEYPOT_FIELD_NAME is missing from
+        request.POST """
         request = _get_POST_request()
         resp = verify_honeypot_value(request, None)
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
@@ -98,11 +102,12 @@ class CheckHoneypotDecorator(HoneypotTestCase):
         resp = new_view_func(request)
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
 
+
 class RenderHoneypotField(HoneypotTestCase):
 
     def _assert_rendered_field(self, template, fieldname, value=''):
-        correct = render_to_string('honeypot/honeypot_field.html', 
-                                   {'fieldname':fieldname, 'value': value})
+        correct = render_to_string('honeypot/honeypot_field.html',
+                                   {'fieldname': fieldname, 'value': value})
         rendered = template.render(Context())
         self.assertEquals(rendered, correct)
 
@@ -115,12 +120,14 @@ class RenderHoneypotField(HoneypotTestCase):
         """ test that {% render_honeypot_field %} uses settings.HONEYPOT_VALUE """
         template = Template('{% load honeypot %}{% render_honeypot_field %}')
         settings.HONEYPOT_VALUE = '(leave blank)'
-        self._assert_rendered_field(template, settings.HONEYPOT_FIELD_NAME, settings.HONEYPOT_VALUE)
+        self._assert_rendered_field(template, settings.HONEYPOT_FIELD_NAME,
+                                    settings.HONEYPOT_VALUE)
 
     def test_templatetag_argument(self):
         """ test that {% render_honeypot_field 'fieldname' %} works """
         template = Template('{% load honeypot %}{% render_honeypot_field "fieldname" %}')
         self._assert_rendered_field(template, 'fieldname', '')
+
 
 class HoneypotMiddleware(HoneypotTestCase):
 
@@ -159,7 +166,7 @@ class HoneypotMiddleware(HoneypotTestCase):
     def test_response_middleware_unicode(self):
         """ ensure that POST form rewriting works with unicode templates """
         request = _get_GET_request()
-        unicode_body = u'\u2603'+self._response_body    # add unicode snowman
+        unicode_body = u'\u2603' + self._response_body    # add unicode snowman
         response = HttpResponse(unicode_body)
         HoneypotResponseMiddleware().process_response(request, response)
         self.assertNotContains(response, unicode_body)
