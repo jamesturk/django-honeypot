@@ -6,3 +6,5 @@ DATABASES = {
 }
 INSTALLED_APPS = ('honeypot',)
 SECRET_KEY = 'honeyisfrombees'
+
+MIDDLEWARE_CLASSES = ()
