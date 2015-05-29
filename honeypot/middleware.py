@@ -21,6 +21,8 @@ class HoneypotViewMiddleware(object):
     def process_view(self, request, callback, callback_args, callback_kwargs):
         if request.is_ajax():
             return None
+        if getattr(callback, 'honeypot_exempt', False):
+            return None
         return verify_honeypot_value(request, None)
 
 

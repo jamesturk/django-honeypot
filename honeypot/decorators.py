@@ -1,8 +1,9 @@
 from functools import wraps
-from django.utils import six
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
+from django.utils import six
+from django.utils.decorators import available_attrs
 
 
 def honeypot_equals(val):
@@ -50,10 +51,21 @@ def check_honeypot(func=None, field_name=None):
                 return response
             else:
                 return func(request, *args, **kwargs)
-        return wraps(func)(inner)
+        return wraps(func, assigned=available_attrs(func))(inner)
 
     if func is None:
         def decorator(func):
             return decorated(func)
         return decorator
     return decorated(func)
+
+
+def honeypot_exempt(view_func):
+    """
+        Mark view as exempt from honeypot validation
+    """
+    # borrowing liberally from django's csrf_exempt
+    def wrapped(*args, **kwargs):
+        return view_func(*args, **kwargs)
+    wrapped.honeypot_exempt = True
+    return wraps(view_func, assigned=available_attrs(view_func))(wrapped)

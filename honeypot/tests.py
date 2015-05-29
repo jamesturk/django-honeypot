@@ -4,7 +4,7 @@ from django.template import Template, Context
 from django.template.loader import render_to_string
 from django.conf import settings
 from honeypot.middleware import HoneypotViewMiddleware, HoneypotResponseMiddleware
-from honeypot.decorators import verify_honeypot_value, check_honeypot
+from honeypot.decorators import verify_honeypot_value, check_honeypot, honeypot_exempt
 
 
 def _get_GET_request():
@@ -171,3 +171,11 @@ class HoneypotMiddleware(HoneypotTestCase):
         HoneypotResponseMiddleware().process_response(request, response)
         self.assertNotContains(response, unicode_body)
         self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
+
+    def test_exempt_view(self):
+        """ call view no matter what if view is exempt """
+        request = _get_POST_request()
+        exempt_view_func = honeypot_exempt(view_func)
+        assert exempt_view_func.honeypot_exempt is True
+        retval = HoneypotViewMiddleware().process_view(request, exempt_view_func, (), {})
+        self.assertEquals(retval, None)
