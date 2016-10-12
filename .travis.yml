@@ -4,8 +4,9 @@ python:
     - "3.4"
     - "3.5"
 env:
-    - DJANGO_VERSION=1.8.7
-    - DJANGO_VERSION=1.9.0
+    - DJANGO_VERSION=1.8.15
+    - DJANGO_VERSION=1.9.10
+    - DJANGO_VERSION=1.10.2
 install: pip install Django==$DJANGO_VERSION
 script: django-admin.py test --settings=test_settings --pythonpath=.
 notifications:
