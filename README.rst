@@ -19,8 +19,8 @@ Source: http://github.com/jamesturk/django-honeypot/
 Requirements
 ============
 
-    * python >= 2.7
-    * django >= 1.7
+* python >= 2.7
+* django >= 1.8
 
 Usage
 =====
