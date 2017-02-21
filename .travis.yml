@@ -1,12 +1,12 @@
 language: python
 python:
     - "2.7"
-    - "3.4"
     - "3.5"
 env:
     - DJANGO_VERSION=1.8.15
     - DJANGO_VERSION=1.9.10
     - DJANGO_VERSION=1.10.2
+    - DJANGO_VERSION=1.11b1
 install: pip install Django==$DJANGO_VERSION
 script: django-admin.py test --settings=test_settings --pythonpath=.
 notifications:
