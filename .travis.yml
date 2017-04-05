@@ -6,7 +6,7 @@ env:
     - DJANGO_VERSION=1.8.15
     - DJANGO_VERSION=1.9.10
     - DJANGO_VERSION=1.10.2
-    - DJANGO_VERSION=1.11b1
+    - DJANGO_VERSION=1.11
 install: pip install Django==$DJANGO_VERSION
 script: django-admin.py test --settings=test_settings --pythonpath=.
 notifications:
