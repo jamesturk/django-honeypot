@@ -10,7 +10,7 @@ script: django-admin.py test --settings=test_settings --pythonpath=.
 matrix:
   exclude:
     - python: "2.7"
-      env: DJANGO_PACKAGE="Django==2.0"
+      env: DJANGO_VERSION=2.0
 notifications:
     email:
         - dev@jamesturk.net
