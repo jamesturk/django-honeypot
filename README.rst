@@ -20,7 +20,9 @@ Requirements
 ============
 
 * python >= 2.7
-* django >= 1.8
+* django >= 1.11
+
+(django-honeypot 0.6 and earlier support Django 1.8)
 
 Usage
 =====

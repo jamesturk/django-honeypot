@@ -3,11 +3,10 @@ python:
     - "2.7"
     - "3.5"
 env:
-    - DJANGO_VERSION=1.8.15
-    - DJANGO_VERSION=1.10.2
     - DJANGO_VERSION=1.11
+    - DJANGO_VERSION=2.0
 install: pip install Django==$DJANGO_VERSION
 script: django-admin.py test --settings=test_settings --pythonpath=.
 notifications:
     email:
-        - james.p.turk@gmail.com
+        - dev@jamesturk.net
