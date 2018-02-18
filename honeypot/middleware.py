@@ -1,5 +1,6 @@
 import re
 from django.utils.safestring import mark_safe
+from django.utils.deprecation import MiddlewareMixin
 from django.template.loader import render_to_string
 from django.conf import settings
 try:
@@ -55,7 +56,7 @@ class HoneypotResponseMiddleware(object):
         return response
 
 
-class HoneypotMiddleware(HoneypotViewMiddleware, HoneypotResponseMiddleware):
+class HoneypotMiddleware(MiddlewareMixin, HoneypotViewMiddleware, HoneypotResponseMiddleware):
     """
         Combines HoneypotViewMiddleware and HoneypotResponseMiddleware.
     """
