@@ -5,12 +5,15 @@ python:
 env:
     - DJANGO_VERSION=1.11
     - DJANGO_VERSION=2.0
+    - DJANGO_VERSION=2.1
 install: pip install Django==$DJANGO_VERSION
 script: django-admin.py test --settings=test_settings --pythonpath=.
 matrix:
   exclude:
     - python: "2.7"
       env: DJANGO_VERSION=2.0
+    - python: "2.7"
+      env: DJANGO_VERSION=2.1
 notifications:
     email:
         - dev@jamesturk.net
