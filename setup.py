@@ -4,7 +4,7 @@ long_description = open('README.rst').read()
 
 setup(
     name='django-honeypot',
-    version="0.6.0",
+    version="0.7.0",
     package_dir={'honeypot': 'honeypot'},
     packages=['honeypot', 'honeypot.templatetags'],
     description='Django honeypot field utilities',
@@ -26,6 +26,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Environment :: Web Environment',
     ],
     include_package_data=True,

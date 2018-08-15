@@ -1,3 +1,8 @@
+0.7.0 - August 15 2018
+======================
+    - drop testing on Django < 1.11
+    - fix middleware for Django 2.0+
+
 0.6.0 - February 21 2017
 ========================
 	- Django 1.8 to Django 1.11 compatibile
