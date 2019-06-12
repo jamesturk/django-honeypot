@@ -46,10 +46,11 @@ class HoneypotResponseMiddleware(object):
                 value = getattr(settings, 'HONEYPOT_VALUE', '')
                 if callable(value):
                     value = value()
-                return mark_safe(match.group() +
-                                 render_to_string('honeypot/honeypot_field.html',
-                                                  {'fieldname': settings.HONEYPOT_FIELD_NAME,
-                                                   'value': value}))
+                return mark_safe(
+                    match.group() + render_to_string('honeypot/honeypot_field.html',
+                                                     {'fieldname': settings.HONEYPOT_FIELD_NAME,
+                                                      'value': value})
+                )
 
             # Modify any POST forms
             response.content = _POST_FORM_RE.sub(add_honeypot_field, force_text(response.content))
