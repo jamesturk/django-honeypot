@@ -5,6 +5,8 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from honeypot.middleware import HoneypotViewMiddleware, HoneypotResponseMiddleware
 from honeypot.decorators import verify_honeypot_value, check_honeypot, honeypot_exempt
+from django import forms as django_forms
+from django.views.generic import FormView
 
 
 def _get_GET_request():
@@ -178,3 +180,36 @@ class HoneypotMiddleware(HoneypotTestCase):
         assert exempt_view_func.honeypot_exempt is True
         retval = HoneypotViewMiddleware().process_view(request, exempt_view_func, (), {})
         self.assertEquals(retval, None)
+        
+          
+class HoneypotMockForm(django_forms.Form):
+    pass
+
+
+class HoneypotMockView(Mixins.HoneypotMixin, FormView):
+    form_class = HoneypotMockForm
+    success_url = 'index'
+
+    
+class TestHoneyPotMixin(TestCase):
+    
+    def setUp(self):
+        self.request = _get_POST_request()
+        request.POST = self.request_a.POST.copy()
+        
+    def test_trigger_honeypot(self):
+        """ test that honeypot is triggered """
+        from django.conf import settings
+        self.request.POST[getattr(settings, 'HONEYPOT_FIELD_NAME', 'family_name')] = "whatever"
+        view = HoneypotMockView(request=self.request)
+        response = view.post(request=self.request, )
+        self.assertEqual(response.status_code, 400)
+
+    def test_pass_honeypot(self):
+        """ test that honeypot is NOT triggered """
+        from django.conf import settings
+        self.request.POST[getattr(settings, 'HONEYPOT_FIELD_NAME', 'family_name')] = ""
+        view = HoneypotMockView(request=self.request)
+        response = view.post(request=self.request)
+        self.assertNotEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 302)
