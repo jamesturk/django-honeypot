@@ -7,6 +7,7 @@ from honeypot.middleware import HoneypotViewMiddleware, HoneypotResponseMiddlewa
 from honeypot.decorators import verify_honeypot_value, check_honeypot, honeypot_exempt
 from django import forms as django_forms
 from django.views.generic import FormView
+from honeypot.views import HoneypotMixin
 
 
 def _get_GET_request():
@@ -186,16 +187,17 @@ class HoneypotMockForm(django_forms.Form):
     pass
 
 
-class HoneypotMockView(Mixins.HoneypotMixin, FormView):
+class HoneypotMockView(HoneypotMixin, FormView):
     form_class = HoneypotMockForm
     success_url = 'index'
 
     
-class TestHoneyPotMixin(TestCase):
+class TestHoneyPotMixin(HoneypotTestCase):
     
     def setUp(self):
+        super(TestHoneyPotMixin, self).setUp()
         self.request = _get_POST_request()
-        request.POST = self.request_a.POST.copy()
+        self.request.POST = self.request.POST.copy()
         
     def test_trigger_honeypot(self):
         """ test that honeypot is triggered """

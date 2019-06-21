@@ -1,3 +1,5 @@
+from honeypot.decorators import verify_honeypot_value
+
 class HoneypotMixin(object):
     honeypot_fieldname = None
 
