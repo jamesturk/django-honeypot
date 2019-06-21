@@ -181,8 +181,8 @@ class HoneypotMiddleware(HoneypotTestCase):
         assert exempt_view_func.honeypot_exempt is True
         retval = HoneypotViewMiddleware().process_view(request, exempt_view_func, (), {})
         self.assertEquals(retval, None)
-        
-          
+
+
 class HoneypotMockForm(django_forms.Form):
     pass
 
@@ -191,14 +191,14 @@ class HoneypotMockView(HoneypotMixin, FormView):
     form_class = HoneypotMockForm
     success_url = 'index'
 
-    
+
 class TestHoneyPotMixin(HoneypotTestCase):
-    
+
     def setUp(self):
         super(TestHoneyPotMixin, self).setUp()
         self.request = _get_POST_request()
         self.request.POST = self.request.POST.copy()
-        
+
     def test_trigger_honeypot(self):
         """ test that honeypot is triggered """
         from django.conf import settings
