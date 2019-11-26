@@ -53,7 +53,9 @@ And then within any form including the tag::
 
 will render a honeypot field named "field_name" that is hidden by default.  The name of the honeypot field will default to ``HONEYPOT_FIELD_NAME`` if one is not provided.
 
-To ensure that the honeypot field is both present and correct you will need to use ``check_honeypot`` decorator from ``honeypot.decorators``::
+To ensure that the honeypot field is both present and correct you will need to use ``check_honeypot`` decorator from ``honeypot.decorators``:
+
+.. code:: python
 
     from honeypot.decorators import check_honeypot
 
