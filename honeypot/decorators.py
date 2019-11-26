@@ -2,7 +2,6 @@ from functools import wraps
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
-from django.utils import six
 from django.utils.decorators import available_attrs
 
 
@@ -41,7 +40,7 @@ def check_honeypot(func=None, field_name=None):
         not specified.
     """
     # hack to reverse arguments if called with str param
-    if isinstance(func, six.string_types):
+    if isinstance(func, str):
         func, field_name = field_name, func
 
     def decorated(func):
