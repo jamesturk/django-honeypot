@@ -19,10 +19,10 @@ Source: http://github.com/jamesturk/django-honeypot/
 Requirements
 ============
 
-* python >= 2.7
-* django >= 1.11
+* python >= 3.6
+* django >= 2.2
 
-(django-honeypot 0.6 and earlier support Django 1.8)
+(django-honeypot 0.7 supports Django 1.11 and Python 2.7)
 
 Usage
 =====

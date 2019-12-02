@@ -6,7 +6,7 @@ python:
     - "3.8"
 env:
     - DJANGO_VERSION=2.2
-    - DJANGO_VERSION=3.0rc1
+    - DJANGO_VERSION=3.0
 install: pip install --pre Django==$DJANGO_VERSION flake8
 script:
     - django-admin.py test --settings=test_settings --pythonpath=.
