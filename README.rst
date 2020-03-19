@@ -24,6 +24,13 @@ Requirements
 
 (django-honeypot 0.7 supports Django 1.11 and Python 2.7)
 
+Installation
+============
+
+You can install it using pip:
+
+    pip install django-honeypot
+
 Usage
 =====
 
