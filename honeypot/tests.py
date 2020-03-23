@@ -135,14 +135,16 @@ class HoneypotMiddleware(HoneypotTestCase):
     def test_view_middleware_invalid(self):
         """ don't call view when HONEYPOT_VERIFIER returns False """
         request = _get_POST_request()
-        retval = HoneypotViewMiddleware().process_view(request, view_func, (), {})
+        retval = HoneypotViewMiddleware(lambda request: None).process_view(request, view_func,
+                                                                           (), {})
         self.assertEquals(retval.__class__, HttpResponseBadRequest)
 
     def test_view_middleware_valid(self):
         """ call view when HONEYPOT_VERIFIER returns True """
         request = _get_POST_request()
         request.POST[settings.HONEYPOT_FIELD_NAME] = ''
-        retval = HoneypotViewMiddleware().process_view(request, view_func, (), {})
+        retval = HoneypotViewMiddleware(lambda request: None).process_view(request, view_func,
+                                                                           (), {})
         self.assertEquals(retval, None)
 
     def test_response_middleware_rewrite(self):
@@ -150,7 +152,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request = _get_POST_request()
         request.POST[settings.HONEYPOT_FIELD_NAME] = ''
         response = HttpResponse(self._response_body)
-        HoneypotResponseMiddleware().process_response(request, response)
+        HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertNotContains(response, self._response_body)
         self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
 
@@ -159,7 +161,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request = _get_POST_request()
         request.POST[settings.HONEYPOT_FIELD_NAME] = ''
         response = HttpResponse(self._response_body, content_type='text/javascript')
-        HoneypotResponseMiddleware().process_response(request, response)
+        HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertContains(response, self._response_body)
 
     def test_response_middleware_unicode(self):
@@ -167,7 +169,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request = _get_GET_request()
         unicode_body = u'\u2603' + self._response_body    # add unicode snowman
         response = HttpResponse(unicode_body)
-        HoneypotResponseMiddleware().process_response(request, response)
+        HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertNotContains(response, unicode_body)
         self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
 
@@ -176,5 +178,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         request = _get_POST_request()
         exempt_view_func = honeypot_exempt(view_func)
         assert exempt_view_func.honeypot_exempt is True
-        retval = HoneypotViewMiddleware().process_view(request, exempt_view_func, (), {})
+        retval = HoneypotViewMiddleware(lambda request: None).process_view(request,
+                                                                           exempt_view_func,
+                                                                           (), {})
         self.assertEquals(retval, None)
