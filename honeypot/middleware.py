@@ -1,6 +1,5 @@
 import re
 from django.utils.safestring import mark_safe
-from django.utils.deprecation import MiddlewareMixin
 from django.template.loader import render_to_string
 from django.conf import settings
 try:
@@ -15,7 +14,15 @@ _POST_FORM_RE = re.compile(r'(<form\W[^>]*\bmethod\s*=\s*(\'|"|)POST(\'|"|)\b[^>
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
 
-class HoneypotViewMiddleware(object):
+class BaseHoneypotMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        return self.get_response(request)
+
+
+class HoneypotViewMiddleware(BaseHoneypotMiddleware):
     """
         Middleware that verifies a valid honeypot on all non-ajax POSTs.
     """
@@ -27,13 +34,13 @@ class HoneypotViewMiddleware(object):
         return verify_honeypot_value(request, None)
 
 
-class HoneypotResponseMiddleware(object):
+class HoneypotResponseMiddleware(BaseHoneypotMiddleware):
     """
         Middleware that rewrites all POST forms to include honeypot field.
-
-        Borrows heavily from pre-Django 1.2 django.contrib.csrf.middleware.CsrfResponseMiddleware.
     """
-    def process_response(self, request, response):
+    def __call__(self, request):
+        response = self.get_response(request)
+
         try:
             content_type = response['Content-Type'].split(';')[0]
         except (KeyError, AttributeError):
@@ -57,8 +64,7 @@ class HoneypotResponseMiddleware(object):
         return response
 
 
-class HoneypotMiddleware(MiddlewareMixin, HoneypotViewMiddleware, HoneypotResponseMiddleware):
+class HoneypotMiddleware(HoneypotViewMiddleware, HoneypotResponseMiddleware):
     """
         Combines HoneypotViewMiddleware and HoneypotResponseMiddleware.
     """
-    pass
