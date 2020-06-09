@@ -1,3 +1,8 @@
+0.9.0 - June 9 2020
+=======================
+    - change default display: none to something a bit more difficult for bots
+    - switch to new style middleware
+
 0.8.0 - December 2 2019
 =======================
     - drop Python 2 support and Django < 2.2
