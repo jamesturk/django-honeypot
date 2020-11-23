@@ -1,12 +1,12 @@
 language: python
 dist: xenial
 python:
-    - "3.6"
     - "3.7"
     - "3.8"
 env:
     - DJANGO_VERSION=2.2
     - DJANGO_VERSION=3.0
+    - DJANGO_VERSION=3.1
 install: pip install --pre Django==$DJANGO_VERSION flake8
 script:
     - django-admin.py test --settings=test_settings --pythonpath=.
