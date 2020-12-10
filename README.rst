@@ -2,8 +2,7 @@
 django-honeypot
 ===============
 
-.. image:: https://travis-ci.com/jamesturk/django-honeypot.svg?branch=master
-    :target: https://travis-ci.com/jamesturk/django-honeypot
+.. image:: https://github.com/jamesturk/django-honeypot/workflows/Test/badge.svg
 
 .. image:: https://img.shields.io/pypi/v/django-honeypot.svg
     :target: https://pypi.python.org/pypi/django-honeypot
@@ -14,7 +13,7 @@ Provides template tags, view decorators, and middleware to add and verify honeyp
 
 Written by James Turk with contributions by Flavio Curella and Daniel Greenfeld.
 
-Source: http://github.com/jamesturk/django-honeypot/
+Source: https://github.com/jamesturk/django-honeypot/
 
 Requirements
 ============
