@@ -28,4 +28,4 @@ jobs:
     # - name: lint with flake8
     #   run: flake8 --show-source --statistics --ignore=E203,E501,W503
     - name: run tests
-      run: django-admin.py test --settings=test_settings --pythonpath=.
+      run: django-admin test --settings=test_settings --pythonpath=.
