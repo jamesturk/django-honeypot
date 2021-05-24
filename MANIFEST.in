@@ -1,5 +1,0 @@
-include CHANGELOG LICENSE README.rst
-
-include LICENSE
-include MANIFEST.in
-recursive-include honeypot/templates *
