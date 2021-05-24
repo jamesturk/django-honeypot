@@ -24,8 +24,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: install dependencies
-      run: pip install Django==${{ matrix.django-version }}
-    # - name: lint with flake8
-    #   run: flake8 --show-source --statistics --ignore=E203,E501,W503
+      run: pip install Django==${{ matrix.django-version }} flake8 black
+    - name: lint with flake8
+      run: flake8 --show-source --statistics --ignore=E203,E501,W503
+    - name: lint with black
+      run: black --check
     - name: run tests
       run: django-admin test --settings=test_settings --pythonpath=.
