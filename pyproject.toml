@@ -1,5 +1,8 @@
 [tool.poetry]
 name = "django-honeypot"
+packages = [
+     { include = "honeypot" },
+]
 version = "1.0.0"
 description = "Django honeypot field utilities"
 authors = ["James Turk <dev@jamesturk.net>"]
@@ -21,6 +24,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
+Django = "^2.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
