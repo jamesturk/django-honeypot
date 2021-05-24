@@ -1,3 +1,8 @@
+1.0.0 - June 9 2020
+=======================
+    - turn autocomplete off for Chrome users
+    - remove some legacy compatibility code
+
 0.9.0 - June 9 2020
 =======================
     - change default display: none to something a bit more difficult for bots
