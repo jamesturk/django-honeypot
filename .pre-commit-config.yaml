@@ -1,0 +1,14 @@
+default_language_version:
+    python: python3.9
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.2.3
+    hooks:
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: flake8
+        args: ['--max-line-length=120', '--ignore=E203,E501,W503']
+-   repo: https://github.com/ambv/black
+    rev: 20.8b1
+    hooks:
+      - id: black
