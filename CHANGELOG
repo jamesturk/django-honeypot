@@ -1,4 +1,8 @@
-1.0.0 - June 9 2020
+1.0.1 - May 24 2021
+=======================
+    - fix for Django 3.0 compatibility
+
+1.0.0 - May 24 2021
 =======================
     - turn autocomplete off for Chrome users
     - remove some legacy compatibility code
