@@ -1,3 +1,7 @@
+1.0.2 - Oct 25 2021
+=====================
+    - fix for Django 4.0 compatibility
+
 1.0.1 - May 24 2021
 =======================
     - fix for Django 3.0 compatibility
