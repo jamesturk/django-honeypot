@@ -26,7 +26,8 @@ class HoneypotViewMiddleware(BaseHoneypotMiddleware):
     """
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
-        if request.is_ajax():
+        # replace old is_ajax method that was removed in Django 3.1
+        if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
             return None
         if getattr(callback, "honeypot_exempt", False):
             return None
