@@ -15,7 +15,9 @@ jobs:
       matrix:
         python-version: [3.7, 3.9, '3.10']
         django-version: [2.2, 3.2, '4.0b1']
-
+        exclude:
+          - python-version: 3.7
+            django-version: "4.0b1"
     steps:
     # Python & dependency installation
     - uses: actions/checkout@v2
