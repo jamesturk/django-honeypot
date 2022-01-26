@@ -27,7 +27,7 @@ python = "^3.7"
 Django = ">=2.2,<5.0"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^3.9.2"
+flake8 = "^4.0.1"
 black = "^21.5b1"
 
 [build-system]
