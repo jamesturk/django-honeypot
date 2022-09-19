@@ -40,7 +40,7 @@ You will almost always need to define ``HONEYPOT_FIELD_NAME`` which is the name 
 Adding honeypot fields to specific forms and views
 --------------------------------------------------
 
-It is possible to add honeypot fields to specific forms and ensure that specific views check for a valid honeypotin ``request.POST``.  This can be accomplished by using the ``render_honeypot_field`` template tag:
+It is possible to add honeypot fields to specific forms and ensure that specific views check for a valid honeypot in ``request.POST``.  This can be accomplished by using the ``render_honeypot_field`` template tag:
 
 At the top of a template file include the line::
 
@@ -67,6 +67,24 @@ To ensure that the honeypot field is both present and correct you will need to u
         ...
 
 This decorator will ensure that a field exists in ``request.POST`` that is named 'field_name'.  ``@check_honeypot`` without arguments will use the default ``HONEYPOT_FIELD_NAME``.
+
+Adding honeypot fields to class-based-views
+-------------------------------------------
+
+The same as above for `Adding honeypot fields to specific forms and views`_ but add the decorator to the post method.
+
+
+.. code:: python
+
+    from honeypot.decorators import check_honeypot
+
+    class MyView(FormView):
+        ...
+
+        @check_honeypot
+        def post(self, *args, **kwargs):
+            return super().post(*args, **kwargs)
+
 
 Adding honeypot fields site-wide
 --------------------------------
