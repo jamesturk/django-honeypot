@@ -71,20 +71,17 @@ This decorator will ensure that a field exists in ``request.POST`` that is named
 Adding honeypot fields to class-based-views
 -------------------------------------------
 
-The same as above for `Adding honeypot fields to specific forms and views`_ but add the decorator to the post method.
+The same as above for `Adding honeypot fields to specific forms and views`_ but add the decorator to the post method making use of django's `method_decorator <https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/#decorating-the-class>`_.
 
 
 .. code:: python
-
+    
+    from django.utils.decorators import method_decorator
     from honeypot.decorators import check_honeypot
-
+    
+    @method_decorator(check_honeypot, name='post')
     class MyView(FormView):
         ...
-
-        @check_honeypot
-        def post(self, *args, **kwargs):
-            return super().post(*args, **kwargs)
-
 
 Adding honeypot fields site-wide
 --------------------------------
