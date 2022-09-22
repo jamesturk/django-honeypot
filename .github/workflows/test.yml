@@ -30,6 +30,6 @@ jobs:
     - name: lint with flake8
       run: flake8 --show-source --statistics --ignore=E203,E501,W503
     - name: lint with black
-      run: black --check
+      run: black --check honeypot
     - name: run tests
       run: django-admin test --settings=test_settings --pythonpath=.
