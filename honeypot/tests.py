@@ -16,6 +16,14 @@ def _get_POST_request():
     req.method = "POST"
     return req
 
+def _get_cbv_POST_request():
+    class View:
+        def __init__(self):
+            self.request = HttpRequest()
+            self.request.method = "POST"
+    
+    return View()
+
 
 def view_func(request):
     return HttpResponse()
@@ -42,6 +50,13 @@ class VerifyHoneypotValue(HoneypotTestCase):
         request = _get_POST_request()
         request.POST[settings.HONEYPOT_FIELD_NAME] = ""
         settings.HONEYPOT_VERIFIER = lambda x: False
+        resp = verify_honeypot_value(request, None)
+        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+
+    def test_verifier_class_based_views(self):
+        """ test that verify_honeypot_value works when used on a class based view post method """
+
+        request = _get_cbv_POST_request()
         resp = verify_honeypot_value(request, None)
         self.assertEquals(resp.__class__, HttpResponseBadRequest)
 
