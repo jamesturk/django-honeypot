@@ -40,7 +40,7 @@ You will almost always need to define ``HONEYPOT_FIELD_NAME`` which is the name 
 Adding honeypot fields to specific forms and views
 --------------------------------------------------
 
-It is possible to add honeypot fields to specific forms and ensure that specific views check for a valid honeypot in ``request.POST``.  This can be accomplished by using the ``render_honeypot_field`` template tag:
+It is possible to add honeypot fields to specific forms and ensure that specific views check for a valid honeypotin ``request.POST``.  This can be accomplished by using the ``render_honeypot_field`` template tag:
 
 At the top of a template file include the line::
 

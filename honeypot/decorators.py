@@ -1,5 +1,4 @@
 from functools import wraps
-
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
@@ -24,15 +23,7 @@ def verify_honeypot_value(request, field_name):
     HONEYPOT_VERIFIER.
     """
     verifier = getattr(settings, "HONEYPOT_VERIFIER", honeypot_equals)
-    
-    try:
-        method = request.method
-    except AttributeError: 
-        # We might be using a class based view
-        method = request.request.method
-        request = request.request
-
-    if method == "POST":
+    if request.method == "POST":
         field = field_name or settings.HONEYPOT_FIELD_NAME
         if field not in request.POST or not verifier(request.POST[field]):
             resp = render_to_string(
