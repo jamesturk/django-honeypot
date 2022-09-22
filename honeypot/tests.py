@@ -173,7 +173,7 @@ class HoneypotMiddleware(HoneypotTestCase):
     def test_response_middleware_unicode(self):
         """ensure that POST form rewriting works with unicode templates"""
         request = _get_GET_request()
-        unicode_body = u"\u2603" + self._response_body  # add unicode snowman
+        unicode_body = "\u2603" + self._response_body  # add unicode snowman
         response = HttpResponse(unicode_body)
         HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertNotContains(response, unicode_body)
