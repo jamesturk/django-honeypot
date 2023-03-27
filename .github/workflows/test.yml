@@ -20,9 +20,9 @@ jobs:
             django-version: 4.0
     steps:
     # Python & dependency installation
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: install dependencies
