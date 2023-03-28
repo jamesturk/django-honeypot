@@ -1,10 +1,11 @@
-from django.test import TestCase
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
-from django.template import Template, Context
-from django.template.loader import render_to_string
 from django.conf import settings
-from honeypot.middleware import HoneypotViewMiddleware, HoneypotResponseMiddleware
-from honeypot.decorators import verify_honeypot_value, check_honeypot, honeypot_exempt
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.template import Context, Template
+from django.template.loader import render_to_string
+from django.test import TestCase
+
+from honeypot.decorators import check_honeypot, honeypot_exempt, verify_honeypot_value
+from honeypot.middleware import HoneypotResponseMiddleware, HoneypotViewMiddleware
 
 
 def _get_GET_request():
@@ -35,7 +36,7 @@ class VerifyHoneypotValue(HoneypotTestCase):
         """test that verify_honeypot_value is not called when request.method == GET"""
         request = _get_GET_request()
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp, None)
+        self.assertEqual(resp, None)
 
     def test_verifier_false(self):
         """test that verify_honeypot_value fails when HONEYPOT_VERIFIER returns False"""
@@ -43,21 +44,21 @@ class VerifyHoneypotValue(HoneypotTestCase):
         request.POST[settings.HONEYPOT_FIELD_NAME] = ""
         settings.HONEYPOT_VERIFIER = lambda x: False
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+        self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_field_missing(self):
         """test that verify_honeypot_value succeeds when HONEYPOT_FIELD_NAME is missing from
         request.POST"""
         request = _get_POST_request()
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+        self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_field_blank(self):
         """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is blank"""
         request = _get_POST_request()
         request.POST[settings.HONEYPOT_FIELD_NAME] = ""
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp, None)
+        self.assertEqual(resp, None)
 
     def test_honeypot_value_string(self):
         """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is a string"""
@@ -65,7 +66,7 @@ class VerifyHoneypotValue(HoneypotTestCase):
         settings.HONEYPOT_VALUE = "(test string)"
         request.POST[settings.HONEYPOT_FIELD_NAME] = settings.HONEYPOT_VALUE
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp, None)
+        self.assertEqual(resp, None)
 
     def test_honeypot_value_callable(self):
         """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is a callable"""
@@ -73,7 +74,7 @@ class VerifyHoneypotValue(HoneypotTestCase):
         settings.HONEYPOT_VALUE = lambda: "(test string)"
         request.POST[settings.HONEYPOT_FIELD_NAME] = settings.HONEYPOT_VALUE()
         resp = verify_honeypot_value(request, None)
-        self.assertEquals(resp, None)
+        self.assertEqual(resp, None)
 
 
 class CheckHoneypotDecorator(HoneypotTestCase):
@@ -82,14 +83,14 @@ class CheckHoneypotDecorator(HoneypotTestCase):
         new_view_func = check_honeypot(view_func)
         request = _get_POST_request()
         resp = new_view_func(request)
-        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+        self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_decorator_argument(self):
         """test that check_honeypot(view, 'fieldname') works"""
         new_view_func = check_honeypot(view_func, "fieldname")
         request = _get_POST_request()
         resp = new_view_func(request)
-        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+        self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_decorator_py24_syntax(self):
         """test that @check_honeypot syntax works"""
@@ -100,7 +101,7 @@ class CheckHoneypotDecorator(HoneypotTestCase):
 
         request = _get_POST_request()
         resp = new_view_func(request)
-        self.assertEquals(resp.__class__, HttpResponseBadRequest)
+        self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
 
 class RenderHoneypotField(HoneypotTestCase):
@@ -109,7 +110,7 @@ class RenderHoneypotField(HoneypotTestCase):
             "honeypot/honeypot_field.html", {"fieldname": fieldname, "value": value}
         )
         rendered = template.render(Context())
-        self.assertEquals(rendered, correct)
+        self.assertEqual(rendered, correct)
 
     def test_default_templatetag(self):
         """test that {% render_honeypot_field %} works and defaults to HONEYPOT_FIELD_NAME"""
@@ -133,7 +134,6 @@ class RenderHoneypotField(HoneypotTestCase):
 
 
 class HoneypotMiddleware(HoneypotTestCase):
-
     _response_body = '<form method="POST"></form>'
 
     def test_view_middleware_invalid(self):
@@ -142,7 +142,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         retval = HoneypotViewMiddleware(lambda request: None).process_view(
             request, view_func, (), {}
         )
-        self.assertEquals(retval.__class__, HttpResponseBadRequest)
+        self.assertEqual(retval.__class__, HttpResponseBadRequest)
 
     def test_view_middleware_valid(self):
         """call view when HONEYPOT_VERIFIER returns True"""
@@ -151,7 +151,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         retval = HoneypotViewMiddleware(lambda request: None).process_view(
             request, view_func, (), {}
         )
-        self.assertEquals(retval, None)
+        self.assertEqual(retval, None)
 
     def test_response_middleware_rewrite(self):
         """ensure POST forms are rewritten"""
@@ -187,4 +187,4 @@ class HoneypotMiddleware(HoneypotTestCase):
         retval = HoneypotViewMiddleware(lambda request: None).process_view(
             request, exempt_view_func, (), {}
         )
-        self.assertEquals(retval, None)
+        self.assertEqual(retval, None)

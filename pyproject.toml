@@ -21,15 +21,65 @@ classifiers = [
     "Environment :: Web Environment",
 ]
 
-
 [tool.poetry.dependencies]
-python = "^3.7"
 Django = ">=2.2,<5.0"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^3.9.2"
-black = "^22.8"
+black = "^23.1.0"
+ruff = "^0.0.259"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = [
+    "A",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "DJ",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "G",
+    "I",
+    "ICN",
+    "INP",
+    "ISC",
+    "N",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PTH",
+    "PYI",
+    "Q",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "T20",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
+    "YTT"
+]
+line-length = 93
+target-version = "py37"
+
+[tool.ruff.per-file-ignores]
+"honeypot/middleware.py" = ["S308"]
+"honeypot/tests.py" = ["N802"]
+"test*" = ["S101", "S105"]

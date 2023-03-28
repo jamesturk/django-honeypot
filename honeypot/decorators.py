@@ -1,4 +1,5 @@
 from functools import wraps
+
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
@@ -30,6 +31,7 @@ def verify_honeypot_value(request, field_name):
                 "honeypot/honeypot_error.html", {"fieldname": field}
             )
             return HttpResponseBadRequest(resp)
+    return None
 
 
 def check_honeypot(func=None, field_name=None):
@@ -46,10 +48,7 @@ def check_honeypot(func=None, field_name=None):
     def decorated(func):
         def inner(request, *args, **kwargs):
             response = verify_honeypot_value(request, field_name)
-            if response:
-                return response
-            else:
-                return func(request, *args, **kwargs)
+            return response or func(request, *args, **kwargs)
 
         return wraps(func)(inner)
 
@@ -66,6 +65,7 @@ def honeypot_exempt(view_func):
     """
     Mark view as exempt from honeypot validation
     """
+
     # borrowing liberally from django's csrf_exempt
     def wrapped(*args, **kwargs):
         return view_func(*args, **kwargs)
