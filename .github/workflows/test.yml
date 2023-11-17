@@ -20,7 +20,7 @@ jobs:
             django-version: "3.2"
     steps:
     # Python & dependency installation
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
@@ -28,7 +28,7 @@ jobs:
     - name: install dependencies
       run: pip install black ruff --pre Django==${{ matrix.django-version }}
     - name: lint with ruff
-      run: ruff .
+      run: ruff --output-format=github .
     - name: lint with black
       run: black --check honeypot
     - name: run tests
