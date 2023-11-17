@@ -3,7 +3,7 @@ name = "django-honeypot"
 packages = [
      { include = "honeypot" },
 ]
-version = "1.0.3"
+version = "1.0.4"
 description = "Django honeypot field utilities"
 authors = ["James Turk <dev@jamesturk.net>"]
 license = "BSD-2-Clause"
@@ -14,16 +14,16 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Framework :: Django :: 2.2",
-    "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
     "Environment :: Web Environment",
 ]
 
 [tool.poetry.dependencies]
-Django = ">=2.2,<5.0"
-python = "^3.7"
+Django = ">=3.2,<5.0"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 black = "^23.1.0"
