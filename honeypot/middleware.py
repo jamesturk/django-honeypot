@@ -61,6 +61,7 @@ class HoneypotResponseMiddleware(BaseHoneypotMiddleware):
                     + render_to_string(
                         "honeypot/honeypot_field.html",
                         {"fieldname": settings.HONEYPOT_FIELD_NAME, "value": value},
+                        request=request,
                     )
                 )
 
