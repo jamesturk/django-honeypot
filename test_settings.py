@@ -1,5 +1,9 @@
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
-INSTALLED_APPS = ("django.contrib.contenttypes", "honeypot",)
+INSTALLED_APPS = (
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
+    "honeypot",
+)
 SECRET_KEY = "honeyisfrombees"
 
 MIDDLEWARE_CLASSES = ()
