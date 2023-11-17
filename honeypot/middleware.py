@@ -1,8 +1,10 @@
 import re
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
+
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.utils.encoding import force_str
+from django.utils.safestring import mark_safe
+
 from honeypot.decorators import verify_honeypot_value
 
 # these were moved out of Django 1.2 -- we're going to still use them

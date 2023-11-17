@@ -22,13 +22,13 @@ jobs:
     # Python & dependency installation
     - uses: actions/checkout@v3
     - name: setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: install dependencies
-      run: pip install --pre Django==${{ matrix.django-version }} flake8 black
-    - name: lint with flake8
-      run: flake8 --show-source --statistics --ignore=E203,E501,W503
+      run: pip install black ruff --pre Django==${{ matrix.django-version }}
+    - name: lint with ruff
+      run: ruff --format=github .
     - name: lint with black
       run: black --check honeypot
     - name: run tests
