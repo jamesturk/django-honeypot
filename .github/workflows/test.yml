@@ -14,10 +14,12 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: ['3.8', '3.12']
-        django-version: [3.2, 4.2]
+        django-version: [3.2, 4.2, 5.0]
         exclude:
           - python-version: "3.12"
             django-version: "3.2"
+          - python-version: "3.8"
+            django-version: "5.0"
     steps:
     # Python & dependency installation
     - uses: actions/checkout@v4
@@ -28,7 +30,7 @@ jobs:
     - name: install dependencies
       run: pip install black ruff --pre Django==${{ matrix.django-version }}
     - name: lint with ruff
-      run: ruff --output-format=github .
+      run: ruff --output-format=github
     - name: lint with black
       run: black --check honeypot
     - name: run tests
