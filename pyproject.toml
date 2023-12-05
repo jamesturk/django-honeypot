@@ -18,11 +18,12 @@ classifiers = [
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
     "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
     "Environment :: Web Environment",
 ]
 
 [tool.poetry.dependencies]
-Django = ">=3.2,<5.0"
+Django = ">=3.2,<5.1"
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
