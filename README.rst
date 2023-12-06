@@ -92,7 +92,7 @@ All of these middleware live in ``honeypot.middleware``.
 
 ``HoneypotViewMiddleware`` ensures that for all incoming POST requests to views ``request.POST`` contains a valid honeypot field as defined by the ``HONEYPOT_FIELD_NAME``, ``HONEYPOT_VALUE``, and ``HONEYPOT_VERIFIER`` settings.  The result is the same as if every view in your project were decorated with ``@check_honeypot``.
 
-``HoneypotMiddleware`` is a combined middleware that applies both ``HoneypotResponseMiddleware`` and ``HoneypotViewMiddleware``, this is the easiest way to get honeypot fields site-wide and can be used in many if not most cases.
+``HoneypotMiddleware`` is a combined middleware that applies both ``HoneypotResponseMiddleware`` and ``HoneypotViewMiddleware``, this is the easiest way to get honeypot fields site-wide and can be used in many if not most cases. The middleware needs to be listed after ``CommonMiddleware`` because the middleware changes the response. If you list it before  ``CommonMiddleware`` then the ``Content-Length`` header won't reflect the changes.
 
 Customizing honeypot display
 ----------------------------

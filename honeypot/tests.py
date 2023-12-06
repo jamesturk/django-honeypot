@@ -1,9 +1,11 @@
 from django.conf import settings
+from django.core import checks
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.template import Context, Template
 from django.template.loader import render_to_string
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
+from honeypot.checks import check_middleware_order
 from honeypot.decorators import check_honeypot, honeypot_exempt, verify_honeypot_value
 from honeypot.middleware import HoneypotResponseMiddleware, HoneypotViewMiddleware
 
@@ -188,3 +190,40 @@ class HoneypotMiddleware(HoneypotTestCase):
             request, exempt_view_func, (), {}
         )
         self.assertEqual(retval, None)
+
+
+class HoneypotSystemChecks(TestCase):
+    @override_settings(
+        MIDDLEWARE=[
+            "django.middleware.common.CommonMiddleware",
+            "honeypot.middleware.HoneypotMiddleware",
+        ]
+    )
+    def test_correct_order(self):
+        errors = check_middleware_order(None)
+        expected = []
+        self.assertEqual(errors, expected)
+
+    @override_settings(
+        MIDDLEWARE=[
+            "honeypot.middleware.HoneypotResponseMiddleware",
+            "django.middleware.common.CommonMiddleware",
+        ]
+    )
+    def test_wrong_order(self):
+        errors = check_middleware_order(None)
+        expected = [
+            checks.Error(
+                "The honeypot middleware needs to be listed after CommonMiddleware",
+                id="honeypot.E001",
+            )
+        ]
+        self.assertEqual(errors, expected)
+
+    @override_settings(
+        MIDDLEWARE=["django.contrib.sessions.middleware.SessionMiddleware"]
+    )
+    def test_not_in_middleware(self):
+        errors = check_middleware_order(None)
+        expected = []
+        self.assertEqual(errors, expected)
