@@ -2,7 +2,7 @@
 django-honeypot
 ===============
 
-.. image:: https://github.com/jamesturk/django-honeypot/workflows/Test/badge.svg
+.. image:: https://github.com/jamesturk/django-honeypot/actions/workflows/test.yml/badge.svg
 
 .. image:: https://img.shields.io/pypi/v/django-honeypot.svg
     :target: https://pypi.python.org/pypi/django-honeypot
