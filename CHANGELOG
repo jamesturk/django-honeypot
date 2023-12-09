@@ -1,3 +1,15 @@
+1.1.0 - December 9 2023
+=======================
+    - add Django system check for correct middleware, thanks to Jeroen Dekkers
+    - various testing/config fixes, including Django 5.0 compatibility, thanks
+    to Christian Clauss
+
+1.0.4 - November 17 2023
+========================
+    - add support for class based views, thanks to Richard Smith
+    - fix #31, missing request on render_to_string
+
+
 1.0.2 - Oct 25 2021
 =====================
     - fix for Django 4.0 compatibility
