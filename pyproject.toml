@@ -27,7 +27,7 @@ Django = ">=3.2,<5.1"
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-black = "^23.1.0"
+black = "^24.1.1"
 ruff = "^0.1.6"
 
 [build-system]
