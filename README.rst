@@ -106,3 +106,23 @@ There are two templates used by django-honeypot that can be used to control vari
 ``honeypot/honeypot_error.html`` is the error page rendered when a bad request is intercepted.  It is given the context variable ``fieldname`` representing the name of the honeypot field.
 
 To completely change the error page or what happens when a bad request is intercepted set ``HONEYPOT_RESPONDER`` to a function accepting ``request`` and ``context`` kwargs and returning a ``HttpResponse``.
+
+.. code:: python
+
+    # mypackage.py
+    from honeypot.decorators import honeypot_error
+
+    def custom_honeypot_error(request, context):
+        # custom responder logging the event
+        log.warning("gotcha!")
+        # call built-in responder to send default HttpResponseBadRequest
+        return honeypot_error(request, context)
+        # or ...
+        # raise Http404
+
+.. code:: python
+
+    # settings.py
+    from django.utils.module_loading import import_string
+
+    HONEYPOT_RESPONDER = import_string('mypackage.custom_honeypot_error')
