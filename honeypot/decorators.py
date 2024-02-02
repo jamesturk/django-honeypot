@@ -18,7 +18,8 @@ def honeypot_equals(val):
 
 def honeypot_error(request, context):
     """
-    Return error response for invalid honeypot.
+    Default responder used if HONEYPOT_RESPONDER is not specified.
+    Return HttpResponseBadRequest for invalid honeypot.
     """
     resp = render_to_string(
         "honeypot/honeypot_error.html",
