@@ -1,6 +1,11 @@
 from django.conf import settings
 from django.core import checks
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseNotFound,
+)
 from django.template import Context, Template
 from django.template.loader import render_to_string
 from django.test import TestCase, override_settings
@@ -30,6 +35,8 @@ class HoneypotTestCase(TestCase):
             delattr(settings, "HONEYPOT_VALUE")
         if hasattr(settings, "HONEYPOT_VERIFIER"):
             delattr(settings, "HONEYPOT_VERIFIER")
+        if hasattr(settings, "HONEYPOT_RESPONDER"):
+            delattr(settings, "HONEYPOT_RESPONDER")
         settings.HONEYPOT_FIELD_NAME = "honeypot"
 
 
@@ -49,11 +56,18 @@ class VerifyHoneypotValue(HoneypotTestCase):
         self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_field_missing(self):
-        """test that verify_honeypot_value succeeds when HONEYPOT_FIELD_NAME is missing from
+        """test that verify_honeypot_value fails when HONEYPOT_FIELD_NAME is missing from
         request.POST"""
         request = _get_POST_request()
         resp = verify_honeypot_value(request, None)
         self.assertEqual(resp.__class__, HttpResponseBadRequest)
+
+    def test_custom_responder(self):
+        """test custom response, when verify_honeypot_value fails"""
+        request = _get_POST_request()
+        settings.HONEYPOT_RESPONDER = lambda x, y: HttpResponseNotFound()
+        resp = verify_honeypot_value(request, None)
+        self.assertEqual(resp.__class__, HttpResponseNotFound)
 
     def test_field_blank(self):
         """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is blank"""
@@ -63,7 +77,8 @@ class VerifyHoneypotValue(HoneypotTestCase):
         self.assertEqual(resp, None)
 
     def test_honeypot_value_string(self):
-        """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is a string"""
+        """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is the expected
+        string"""
         request = _get_POST_request()
         settings.HONEYPOT_VALUE = "(test string)"
         request.POST[settings.HONEYPOT_FIELD_NAME] = settings.HONEYPOT_VALUE
@@ -71,7 +86,8 @@ class VerifyHoneypotValue(HoneypotTestCase):
         self.assertEqual(resp, None)
 
     def test_honeypot_value_callable(self):
-        """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is a callable"""
+        """test that verify_honeypot_value succeeds when HONEYPOT_VALUE is the expected
+        return value of a callable"""
         request = _get_POST_request()
         settings.HONEYPOT_VALUE = lambda: "(test string)"
         request.POST[settings.HONEYPOT_FIELD_NAME] = settings.HONEYPOT_VALUE()

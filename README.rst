@@ -35,6 +35,8 @@ You will almost always need to define ``HONEYPOT_FIELD_NAME`` which is the name 
 
 ``HONEYPOT_VERIFIER`` is an advanced option that you can specify to validate the honeypot.  The default verifier ensures that the contents of the honeypot field matches ``HONEYPOT_VALUE``.  Using a combination of a callable for ``HONEYPOT_VALUE`` and ``HONEYPOT_VERIFIER`` it is possible to implement a more advanced technique such as using timestamps.
 
+``HONEYPOT_RESPONDER`` can be used to replace the default response in case of an invalid honeypot.
+
 Adding honeypot fields to specific forms and views
 --------------------------------------------------
 
@@ -73,10 +75,10 @@ The same as above for `Adding honeypot fields to specific forms and views`_ but 
 
 
 .. code:: python
-    
+
     from django.utils.decorators import method_decorator
     from honeypot.decorators import check_honeypot
-    
+
     @method_decorator(check_honeypot, name='post')
     class MyView(FormView):
         ...
@@ -103,3 +105,24 @@ There are two templates used by django-honeypot that can be used to control vari
 
 ``honeypot/honeypot_error.html`` is the error page rendered when a bad request is intercepted.  It is given the context variable ``fieldname`` representing the name of the honeypot field.
 
+To completely change the error page or what happens when a bad request is intercepted set ``HONEYPOT_RESPONDER`` to a function accepting ``request`` and ``context`` kwargs and returning a ``HttpResponse``.
+
+.. code:: python
+
+    # mypackage.py
+    from honeypot.decorators import honeypot_error
+
+    def custom_honeypot_error(request, context):
+        # custom responder logging the event
+        log.warning("gotcha!")
+        # call built-in responder to send default HttpResponseBadRequest
+        return honeypot_error(request, context)
+        # or ...
+        # raise Http404
+
+.. code:: python
+
+    # settings.py
+    from django.utils.module_loading import import_string
+
+    HONEYPOT_RESPONDER = import_string('mypackage.custom_honeypot_error')

@@ -16,6 +16,19 @@ def honeypot_equals(val):
     return val == expected
 
 
+def honeypot_error(request, context):
+    """
+    Default responder used if HONEYPOT_RESPONDER is not specified.
+    Return HttpResponseBadRequest for invalid honeypot.
+    """
+    resp = render_to_string(
+        "honeypot/honeypot_error.html",
+        context=context,
+        request=request,
+    )
+    return HttpResponseBadRequest(resp)
+
+
 def verify_honeypot_value(request, field_name):
     """
     Verify that request.POST[field_name] is a valid honeypot.
@@ -24,15 +37,11 @@ def verify_honeypot_value(request, field_name):
     HONEYPOT_VERIFIER.
     """
     verifier = getattr(settings, "HONEYPOT_VERIFIER", honeypot_equals)
+    responder = getattr(settings, "HONEYPOT_RESPONDER", honeypot_error)
     if request.method == "POST":
         field = field_name or settings.HONEYPOT_FIELD_NAME
         if field not in request.POST or not verifier(request.POST[field]):
-            resp = render_to_string(
-                "honeypot/honeypot_error.html",
-                {"fieldname": field},
-                request=request,
-            )
-            return HttpResponseBadRequest(resp)
+            return responder(request, {"fieldname": field})
     return None
 
 
