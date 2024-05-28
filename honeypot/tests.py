@@ -15,11 +15,11 @@ from honeypot.decorators import check_honeypot, honeypot_exempt, verify_honeypot
 from honeypot.middleware import HoneypotResponseMiddleware, HoneypotViewMiddleware
 
 
-def _get_GET_request(): # noqa: N802
+def _get_GET_request():  # noqa: N802
     return HttpRequest()
 
 
-def _get_POST_request(): # noqa: N802
+def _get_POST_request():  # noqa: N802
     req = HttpRequest()
     req.method = "POST"
     return req
