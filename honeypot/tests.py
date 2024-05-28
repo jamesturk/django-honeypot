@@ -178,7 +178,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         response = HttpResponse(self._response_body)
         HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertNotContains(response, self._response_body)
-        self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
+        self.assertContains(response, f'name="{settings.HONEYPOT_FIELD_NAME}"')
 
     def test_response_middleware_contenttype_exclusion(self):
         """ensure POST forms are not rewritten for non-html content types"""
@@ -195,7 +195,7 @@ class HoneypotMiddleware(HoneypotTestCase):
         response = HttpResponse(unicode_body)
         HoneypotResponseMiddleware(lambda request: response)(request)
         self.assertNotContains(response, unicode_body)
-        self.assertContains(response, 'name="%s"' % settings.HONEYPOT_FIELD_NAME)
+        self.assertContains(response, f'name="{settings.HONEYPOT_FIELD_NAME}"')
 
     def test_exempt_view(self):
         """call view no matter what if view is exempt"""
