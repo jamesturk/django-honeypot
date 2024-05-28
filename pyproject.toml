@@ -3,7 +3,7 @@ name = "django-honeypot"
 packages = [
      { include = "honeypot" },
 ]
-version = "1.1.0"
+version = "1.2.0"
 description = "Django honeypot field utilities"
 authors = ["James Turk <dev@jamesturk.net>"]
 license = "BSD-2-Clause"

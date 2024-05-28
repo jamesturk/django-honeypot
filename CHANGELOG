@@ -1,3 +1,8 @@
+1.2.0 - May 28 2024
+===================
+    - added HONEYPOT_RESPONDER setting for more configurability, thanks to
+    Florian Demmer!
+
 1.1.0 - December 9 2023
 =======================
     - add Django system check for correct middleware, thanks to Jeroen Dekkers
