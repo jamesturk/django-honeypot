@@ -14,6 +14,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
@@ -22,7 +23,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 Django = ">=3.2,<5.2"
-python = "^3.10"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 black = "^24.1.1"
