@@ -56,8 +56,8 @@ class VerifyHoneypotValue(HoneypotTestCase):
         self.assertEqual(resp.__class__, HttpResponseBadRequest)
 
     def test_field_missing(self):
-        """test that verify_honeypot_value fails when HONEYPOT_FIELD_NAME is missing from
-        request.POST"""
+        """test that verify_honeypot_value fails when HONEYPOT_FIELD_NAME is missing
+        from request.POST"""
         request = _get_POST_request()
         resp = verify_honeypot_value(request, None)
         self.assertEqual(resp.__class__, HttpResponseBadRequest)
@@ -131,7 +131,8 @@ class RenderHoneypotField(HoneypotTestCase):
         self.assertEqual(rendered, correct)
 
     def test_default_templatetag(self):
-        """test that {% render_honeypot_field %} works and defaults to HONEYPOT_FIELD_NAME"""
+        """test that {% render_honeypot_field %} works and defaults to
+        HONEYPOT_FIELD_NAME"""
         template = Template("{% load honeypot %}{% render_honeypot_field %}")
         self._assert_rendered_field(template, settings.HONEYPOT_FIELD_NAME, "")
 

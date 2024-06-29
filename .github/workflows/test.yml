@@ -32,7 +32,7 @@ jobs:
     - name: install dependencies
       run: pip install black ruff --pre Django==${{ matrix.django-version }}
     - name: lint with ruff
-      run: ruff --output-format=github
+      run: ruff check --output-format=github
     - name: lint with black
       run: black --check honeypot
     - name: run tests
