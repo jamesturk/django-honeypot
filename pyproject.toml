@@ -1,24 +1,22 @@
 [tool.poetry]
 name = "django-honeypot"
-packages = [
-     { include = "honeypot" },
-]
-version = "1.2.0"
+packages = [{ include = "honeypot" }]
+version = "1.2.1"
 description = "Django honeypot field utilities"
 authors = ["James Turk <dev@jamesturk.net>"]
 license = "BSD-2-Clause"
 readme = "README.rst"
 repository = "https://github.com/jamesturk/django-honeypot/"
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Framework :: Django :: 3.2",
-    "Framework :: Django :: 4.2",
-    "Framework :: Django :: 5.0",
-    "Framework :: Django :: 5.1",
-    "Environment :: Web Environment",
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Environment :: Web Environment",
 ]
 
 [tool.poetry.dependencies]
