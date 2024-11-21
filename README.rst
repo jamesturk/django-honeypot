@@ -109,20 +109,24 @@ To completely change the error page or what happens when a bad request is interc
 
 .. code:: python
 
-    # mypackage.py
-    from honeypot.decorators import honeypot_error
+    # settings.py
+    HONEYPOT_FIELD_NAME = 'text-message'
+    HONEYPOT_RESPONDER = 'your_app_name.views.honeypot_view_function'
 
-    def custom_honeypot_error(request, context):
-        # custom responder logging the event
-        log.warning("gotcha!")
-        # call built-in responder to send default HttpResponseBadRequest
-        return honeypot_error(request, context)
-        # or ...
-        # raise Http404
 
 .. code:: python
 
-    # settings.py
-    from django.utils.module_loading import import_string
+    # your_app_name/views.py
+    def honeypot_view_function(request, fieldname):
+        fieldname = fieldname
+        data = {
+            'ip_address': request.META['REMOTE_ADDR'],
+            'url_path': request.path,
+        }
+        print(f'django honeypot detect spam from ip: {data['ip_address']} in uri: {data['url_path']} and field: {fieldname}')
 
-    HONEYPOT_RESPONDER = import_string('mypackage.custom_honeypot_error')
+        return render(request, "honeypot/honeypot_error.html", status=200)
+
+    # output:
+    # django honeypot detect spam from ip: 192.168.48.208 in uri: /contact/contact/ and field: {'fieldname': 'text-message'}
+    # plus http response with status code 200 and template 'honeypot/honeypot_error.html'
