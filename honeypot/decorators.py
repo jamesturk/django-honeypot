@@ -3,6 +3,7 @@ from functools import wraps
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 from django.template.loader import render_to_string
+from django.urls import get_callable
 
 
 def honeypot_equals(val):
@@ -38,6 +39,7 @@ def verify_honeypot_value(request, field_name):
     """
     verifier = getattr(settings, "HONEYPOT_VERIFIER", honeypot_equals)
     responder = getattr(settings, "HONEYPOT_RESPONDER", honeypot_error)
+    responder = get_callable(responder)
     if request.method == "POST":
         field = field_name or settings.HONEYPOT_FIELD_NAME
         if field not in request.POST or not verifier(request.POST[field]):
