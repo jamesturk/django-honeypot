@@ -11,7 +11,7 @@ dependencies = [
 ]
 license = "BSD-2-Clause"
 readme = "README.rst"
-repository = "https://github.com/jamesturk/django-honeypot/"
+repository = "https://codeberg.org/jpt/django-honeypot/"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Developers",
