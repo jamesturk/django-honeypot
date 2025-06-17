@@ -2,7 +2,7 @@
 django-honeypot
 ===============
 
-.. image:: https://codeberg.org/jpt/django-honeypot/actions/workflows/test.yml/badge.svg
+**This repository has moved to Codeberg, GitHub will remain as a mirror.**
 
 .. image:: https://img.shields.io/pypi/v/django-honeypot.svg
     :target: https://pypi.python.org/pypi/django-honeypot
